@@ -3,6 +3,20 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 require('dotenv').config(); // Load environment variables from .env
 // Simulated database (use a real database in production)
+const winston = require("winston");
+
+const logger = winston.createLogger({
+  transports: [new winston.transports.Console()],
+});
+
+logger.error("Error message");
+logger.warn("Warning message");
+logger.info("Info message");
+logger.verbose("Verbose message");
+logger.debug("Debug message");
+logger.silly("Silly message");
+
+
 const metricsData = [
     { dimension: 'Activations', value: 120 },
     { dimension: 'Revenue', value: 10000 },
@@ -11,11 +25,13 @@ const metricsData = [
 
 // API Endpoint for Metrics
 app.get('/metrics', (req, res) => {
+    console.log("Metrics API called");
     res.json(metricsData);
 });
 
 // API Endpoint for Subscriptions
 app.get('/subscriptions', (req, res) => {
+    console.log("Subscriptions API called");
     const subscriptionData = [
         { type: 'New', count: 50, revenue: 5000 },
         { type: 'Renewals', count: 70, revenue: 7000 },
@@ -25,6 +41,7 @@ app.get('/subscriptions', (req, res) => {
 
 // API Endpoint for Payments
 app.get('/payments', (req, res) => {
+    console.log("Payments API called");
     const paymentData = [
         { transactionCount: 100, transactionAmount: 20000, gateway: 'PayPal' },
     ];
@@ -42,6 +59,7 @@ const networkData = [
 
 // Network API Endpoint
 app.get('/network', (req, res) => {
+    console.log("Network API called");
     try {
         res.json(networkData);
     } catch (error) {
