@@ -8,7 +8,7 @@ require('dotenv').config(); // Load environment variables from .env
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 4000;
 const PRIVATE_API_URL = process.env.PRIVATE_API_URL || 'http://localhost:3000';
 
 // Replace with your API server's address
