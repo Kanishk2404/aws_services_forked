@@ -248,6 +248,22 @@ b) Private EC2 instance
     
 11) Connect to private instance from public 2EC2 and run the private server
 
-    create pem file and copy content of the secret key which we created during private ec2 instance creation
+    ssh -i "public_telco_server_secret.pem" ec2-user@3.110.160.29
+
+    mkdir secrets
+
+    cd secrets
+    
+    # create pem file and copy content of the secret key which we created during private ec2 instance creation in secrets folder
     sudo nano private_telco_server_secret.pem
+
+    ls -lrt
+        total 4
+        -rw-r--r--. 1 root root 1675 Jan 24 03:17 private_telco_server_secret.pem
+
+    sudo chmod 400 private_telco_server_secret.pem
+
+    ssh -i "private_telco_server_secret.pem" ec2-user@10.0.2.79 # To connect to private EC2 machine
+
+    
 
