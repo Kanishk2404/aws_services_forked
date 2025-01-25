@@ -1,0 +1,19 @@
+version: 1
+applications:
+  - appRoot: aws_services/lesson14_aws_amplify_portfolio_builder
+    frontend:
+      phases:
+        preBuild:
+          commands:
+            - npm install
+        build:
+          commands:
+            - npm run build
+      artifacts:
+        baseDirectory: aws_services/lesson14_aws_amplify_portfolio_builder/.next
+        files:
+          - "**/*"
+      cache:
+        paths:
+          - aws_services/lesson14_aws_amplify_portfolio_builder/node_modules/**/*
+          - aws_services/lesson14_aws_amplify_portfolio_builder/.next/cache/**/*
