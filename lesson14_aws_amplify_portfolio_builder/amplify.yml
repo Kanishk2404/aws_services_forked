@@ -4,15 +4,14 @@ frontend:
     preBuild:
       commands:
         - cd lesson14_aws_amplify_portfolio_builder
-        - npm install
+        - npm ci
     build:
       commands:
         - npm run build
   artifacts:
-    baseDirectory: lesson14_aws_amplify_portfolio_builder/.next
+    baseDirectory: .next
     files:
       - '**/*'
   cache:
     paths:
-      - lesson14_aws_amplify_portfolio_builder/node_modules/**/*
-      - lesson14_aws_amplify_portfolio_builder/.next/cache/**/*
+      - node_modules/**/*
