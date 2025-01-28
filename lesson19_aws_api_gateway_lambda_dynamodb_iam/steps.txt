@@ -10,8 +10,8 @@ access key -> CLI
 
 2) AWS Configure 
 
-Key: AKIAW5BDRJXQQBUGZ2GR
-Secret : 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
+Key: 
+Secret : 
 region : ap-south-1
 format : json
 
