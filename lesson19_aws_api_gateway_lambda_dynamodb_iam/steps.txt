@@ -11,7 +11,7 @@ access key -> CLI
 2) AWS Configure 
 
 Key: 
-Secretzzz
+
 region : ap-south-1
 format : json
 
