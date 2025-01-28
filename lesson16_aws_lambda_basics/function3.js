@@ -42,15 +42,18 @@ export const handler = async (event) => {
 };
 
 
-// {
-//     "Records": [
-//         {
-//             "dynamodb": {
-//                 "NewImage": {
-//                     "CustomerId": { "S": "12345" },
-//                     "UsageAmount": { "N": "100" }
-//                 }
-//             }
-//         }
-//     ]
-// }
+const record = {
+    "Records": [
+        {
+            "dynamodb": {
+                "NewImage": {
+                    "CustomerId": { "S": "12345" },
+                    "UsageAmount": { "N": "100" }
+                }
+            }
+        }
+    ]
+}
+
+
+handler(record)
