@@ -1,3 +1,5 @@
+npm install -g @aws-amplify/cli
+
 2) aws configure
 
 AWS Access Key ID [****************5YY2]:
