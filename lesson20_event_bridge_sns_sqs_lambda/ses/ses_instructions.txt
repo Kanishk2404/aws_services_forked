@@ -1,0 +1,13 @@
+1) Simple Email Service
+Add Identities : lakshmikant.lpu@gmail.com (Email Addresses)
+
+IAM - Roles -> AWS Service -> Lambda -> SESFullAccess
+
+role name : AWS_SES_Role
+
+Event json
+
+{
+  "recipient_email": "test@gmail.com"
+}
+
