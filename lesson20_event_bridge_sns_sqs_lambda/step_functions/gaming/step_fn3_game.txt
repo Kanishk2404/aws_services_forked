@@ -1,0 +1,28 @@
+Now let's integrate AWS EventBridge to automatically trigger the Step Function when a player submits a score.
+
+Create an EventBridge Event Bus : PlayerScoreEventBus
+
+Create an EventBridge Rule : PlayerScoreSubmittedRule
+
+{
+  "source": ["gaming.score"],
+  "detail-type": ["PlayerScoreSubmitted"]
+}
+
+Set the Target to Trigger Step Functions : PlayerScoreValidationStateMachine
+
+{
+  "score": 100
+}
+
+Final In the EventBridge send events select PlayerScoreEventBus
+Enter below payload in Event Detail 
+
+
+{
+  "source": "gaming.score",
+  "detail-type": "PlayerScoreSubmitted",
+  "detail": {
+    "score": 100
+  }
+}
