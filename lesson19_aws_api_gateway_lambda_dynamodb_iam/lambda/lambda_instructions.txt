@@ -8,3 +8,6 @@ attach the LambdaDynamoDBRole in permissions under configuration
             \"eventDate\": \"2025-02-15\", \"eventLocation\": \"Bengaluru\",
             \"eventDescription\": \"Tech Annual meetup.\" }"
 }
+
+
+aws lambda invoke --function-name RootTest --invocation-type Event --cli-binary-format raw-in-base64-out --payload '{"key1": "value1", "key2": "value2"}' response.json
