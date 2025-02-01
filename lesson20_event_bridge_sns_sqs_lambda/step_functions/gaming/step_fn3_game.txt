@@ -11,19 +11,15 @@ Create an EventBridge Rule : PlayerScoreSubmittedRule
 
 Set the Target to Trigger Step Functions : PlayerScoreValidationStateMachine
 
-{
-  "score": 100
-}
-
 Final In the EventBridge send events select PlayerScoreEventBus
 Enter below payload in Event Detail 
 
-
 {
-  "score": 100
+  "playerId": "player123",
+  "detail": {
+    "score": 22
+  }
 }
-
-
 
 // Update lambda 
 score = event.get("detail", {}).get("score", 0)
