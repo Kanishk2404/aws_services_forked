@@ -7,7 +7,7 @@ Instead of manually triggering the event, we'll use EventBridge Scheduler to sch
 
 a) Create an EventBridge Scheduler Rule : DailyGameRewardsSchedule (Automatically send daily rewards to active players)
 
-cron expression : cron(0 0 * * ? *) // schedule the event at 12:00 AM UTC every day.
+cron expression : cron(0 0 * * ? *) // schedule the event at 12:00 AM UTC+5:30 every day.
 
 b) Create Lambda Function : SendGameReward
 
@@ -26,6 +26,12 @@ def lambda_handler(event, context):
 
 
 c) Target : SendGameReward
+
+
+
+
+
+
 
 
 
