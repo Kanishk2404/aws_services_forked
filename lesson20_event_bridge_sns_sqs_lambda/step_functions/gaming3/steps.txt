@@ -1,0 +1,166 @@
+Building a Complete Game Event System
+
+Goal:
+A) Create a full game event-driven system that validates scores, sends rewards, 
+and triggers events automatically using Step Functions, EventBridge, and EventBridge Scheduler.
+
+B) Automate the entire workflow for game events in a real-world scenario.
+
+1) Set Up DynamoDB for Storing Player Data
+
+Table : PlayerData
+Partition Key: playerId
+
+{
+  "score":60,
+  "playerId":"1"
+}
+
+arn:aws:dynamodb:ap-south-1:474668420577:table/PlayerData
+
+
+2) Lambda : ValidatePlayerScore
+
+import json
+import boto3
+from botocore.exceptions import ClientError
+
+dynamodb = boto3.resource('dynamodb')
+table = dynamodb.Table('PlayerData')
+
+def lambda_handler(event, context):
+    score = event.get("score", 0)
+    player_id = event.get("playerId", "unknown")
+
+    # Validate the score
+    if score > 50:
+        result = {"message": "Player Wins!", "status": "win"}
+    else:
+        result = {"message": "Player Loses!", "status": "lose"}
+
+    # Save score to DynamoDB
+    try:
+        table.put_item(
+            Item={
+                'playerId': player_id,
+                'score': score,
+                'status': result['status']
+            }
+        )
+    except ClientError as e:
+        print(f"Error saving to DynamoDB: {e}")
+        raise e
+
+    return result
+
+Give permission to DynamoDB Table
+
+{
+    "playerId": "player123",
+    "score": 55
+}
+
+
+3) Step : PlayerScoreValidationStateMachine
+
+{
+  "StartAt": "Validate Score",
+  "States": {
+    "Validate Score": {
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:ap-south-1:474668420577:function:ValidatePlayerScore",
+      "Retry": [
+        {
+          "ErrorEquals": ["Lambda.ServiceException", "Lambda.AWSLambdaException"],
+          "IntervalSeconds": 5,
+          "MaxAttempts": 3,
+          "BackoffRate": 2
+        }
+      ],
+      "Catch": [
+        {
+          "ErrorEquals": ["States.TaskFailed"],
+          "Next": "ErrorHandler"
+        }
+      ],
+      "End": true
+    },
+    "ErrorHandler": {
+      "Type": "Fail",
+      "Error": "ProcessingFailed",
+      "Cause": "Failed to validate the score after multiple retries"
+    }
+  }
+}
+
+Input : 
+
+{
+    "playerId": "player123",
+    "score": 55
+}
+
+4) Level Up Lambda : LevelUpPlayer
+
+import json
+import boto3
+
+dynamodb = boto3.resource('dynamodb')
+table = dynamodb.Table('PlayerData')
+
+def lambda_handler(event, context):
+    player_id = event.get("playerId")
+    new_level = event.get("level")
+    
+    # Update the player's level in DynamoDB, using ExpressionAttributeNames for the reserved word
+    table.update_item(
+        Key={'playerId': player_id},
+        UpdateExpression="set #lvl = :level",  # Use a placeholder for the 'level' attribute
+        ExpressionAttributeNames={
+            "#lvl": "level"  # Mapping the placeholder to the actual 'level' attribute name
+        },
+        ExpressionAttributeValues={':level': new_level}
+    )
+
+    return {
+        'statusCode': 200,
+        'body': json.dumps(f'Player {player_id} leveled up to {new_level}')
+    }
+
+
+{
+  "playerId": "12345",
+  "level": 10
+}
+
+
+
+4) Event Bridge create event bus : GameEventBus
+
+Rule : PlayerLevelUpRule
+
+{
+  "source": ["gaming.level"],
+  "detail-type": ["PlayerLevelUp"]
+}
+
+{
+    "playerId": "player123",
+    "score": 55
+}
+
+7) Event : score submission event
+
+{
+    "score": 85,
+    "playerId": "player123"
+}
+
+
+8) level-up event
+
+{
+  "playerId": "player123",
+  "level": 5
+}
+
