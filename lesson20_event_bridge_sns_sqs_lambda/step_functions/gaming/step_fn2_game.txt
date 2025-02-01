@@ -56,10 +56,9 @@ Next Step Create Step function : PlayerScoreValidationStateMachine
   "States": {
     "Validate Score": {
       "Type": "Task",
-      "Resource": "arn:aws:lambda:REGION:ACCOUNT_ID:function:ValidatePlayerScore",
+      "Resource": "arn:aws:lambda:ap-south-1:474668420577:function:ValidatePlayerScore:$LATEST",
       "End": true
     }
   }
 }
-
 

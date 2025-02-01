@@ -20,9 +20,10 @@ Enter below payload in Event Detail
 
 
 {
-  "source": "gaming.score",
-  "detail-type": "PlayerScoreSubmitted",
-  "detail": {
-    "score": 100
-  }
+  "score": 100
 }
+
+
+
+// Update lambda 
+score = event.get("detail", {}).get("score", 0)

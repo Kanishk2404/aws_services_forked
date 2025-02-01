@@ -1,5 +1,7 @@
 1. Simple Hello World Task
 
+Name : HelloWorldStateMachine
+
 {
   "StartAt": "HelloWorldTask",
   "States": {
